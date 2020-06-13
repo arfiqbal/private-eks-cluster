@@ -37,10 +37,7 @@ MASTER_SECURITY_GROUPS=`aws cloudformation describe-stacks --stack-name ${STACK_
 WORKER_SECURITY_GROUPS=`aws cloudformation describe-stacks --stack-name ${STACK_NAME} --region ${REGION} --query "Stacks[0].Outputs[?OutputKey=='EndpointClientSecurityGroup'].OutputValue" --output text`
 EKS_CLUSTER_KMS_ARN=`aws cloudformation describe-stacks --stack-name ${STACK_NAME} --region ${REGION} --query "Stacks[0].Outputs[?OutputKey=='MasterKeyArn'].OutputValue" --output text`
 PROXY_URL=${HTTP_PROXY_ENDPOINT_SERVICE_NAME}
-if [ "${HTTP_PROXY_ENDPOINT_SERVICE_NAME}" != "" ]
-then
-    PROXY_URL=`aws cloudformation describe-stacks --stack-name ${STACK_NAME} --region ${REGION} --query "Stacks[0].Outputs[?OutputKey=='HttpProxyUrl'].OutputValue" --output text`
-fi
+
 
 aws eks create-cluster \
     --name ${CLUSTER_NAME} \
